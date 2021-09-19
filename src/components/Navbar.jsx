@@ -62,7 +62,7 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>ZAM</Logo>
+          <Logo>ZAM COLLECTIONS</Logo>
         </Center>
         <Right>
           <MenuItem>REGISTER</MenuItem>
