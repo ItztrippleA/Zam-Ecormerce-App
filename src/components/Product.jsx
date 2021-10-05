@@ -3,7 +3,13 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useLocation } from "react-router";
+import { useState } from "react";
+import { useEffect } from "react";
+import { axios } from "axios";
+import { publicRequest } from "../requestMethods";
 
 const Info = styled.div`
   opacity: 0;
@@ -76,7 +82,9 @@ const Product = ({ item }) => {
           <ShoppingCartOutlined />
         </Icon>
         <Icon>
-          <SearchOutlined />
+          <Link to={`/products/${item._id}`}>
+            <SearchOutlined />
+          </Link>
         </Icon>
         <Icon>
           <FavoriteBorderOutlined />

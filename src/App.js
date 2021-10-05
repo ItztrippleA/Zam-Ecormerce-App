@@ -27,7 +27,7 @@ function App() {
         <Route path="/register">
           {user ? <Redirect to="/" /> : <Register />}
         </Route>
-        <Route path="/products/:category">
+        <Route path="/product/:category">
           <ProductList />
         </Route>
         <Route path="/products/:id">
