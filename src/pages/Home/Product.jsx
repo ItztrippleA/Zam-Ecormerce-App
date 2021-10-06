@@ -6,9 +6,10 @@ import Navbar from "../../components/Navbar";
 import Newsletter from "../../components/NewsLetter";
 import { mobile } from "../../responsive";
 import { publicRequest } from "../../requestMethods";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router";
+import { addProduct } from "../../redux/cartRedux.js";
+import { useDispatch } from "react-redux";
 import axios from "axios";
 
 const Container = styled.div``;
@@ -126,6 +127,7 @@ const Product = () => {
   const [quantity, setQuantity] = useState(1);
   const [color, setColor] = useState(1);
   const [size, setSize] = useState(1);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -147,6 +149,18 @@ const Product = () => {
     } else {
       setQuantity(quantity + 1);
     }
+  };
+
+  const handleClick = () => {
+    dispatch(
+      addProduct({
+        ...product,
+        quantity,
+        color,
+        size,
+        price: product.price * quantity,
+      })
+    );
   };
   return (
     <Container>
@@ -182,7 +196,7 @@ const Product = () => {
               <Amount>{quantity}</Amount>
               <Add onClick={() => handleQuantity("inc")} />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleClick}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>
