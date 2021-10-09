@@ -5,7 +5,7 @@ import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import { mobile } from "../../responsive";
 import { useSelector } from "react-redux";
-import StripeCheckout from "react-stripe-checkout";
+import { FlutterWaveButton, closePaymentModal } from "flutterwave-react-v3";
 import { useState } from "react";
 require("dotenv").config();
 
@@ -159,10 +159,11 @@ const Button = styled.button`
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
-  const [stripeToken, setStripeToken] = useState(null);
-  const onToken = (token) => {
-    setStripeToken(token);
-  };
+  // const [stripeToken, setStripeToken] = useState(null);
+  // const onToken = (token) => {
+  //   setStripeToken(token);
+  // };
+
   return (
     <Container>
       <Navbar />
@@ -230,7 +231,7 @@ const Cart = () => {
               <SummaryItemText>Total</SummaryItemText>
               <SummaryItemPrice>{cart.total}</SummaryItemPrice>
             </SummaryItem>
-            <StripeCheckout
+            {/* <StripeCheckout
               name="ZAM"
               image="https://avatars.githubusercontent.com/u/1486366?v=4"
               billingAddress
@@ -239,9 +240,33 @@ const Cart = () => {
               amount={cart.total * 100}
               token={onToken}
               stripeKey={KEY}
-            >
-              <Button>CHECKOUT NOW</Button>
-            </StripeCheckout>
+            > */}
+            <FlutterWaveButton
+              {...{
+                public_key: "FLWPUBK-**************************-X",
+                tx_ref: Date.now(),
+                amount: 100,
+                currency: "NGN",
+                payment_options: "card,mobilemoney,ussd",
+                customer: {
+                  email: "user@gmail.com",
+                  phonenumber: "07064586146",
+                  name: "joel ugwumadu",
+                },
+                customizations: {
+                  title: "My store",
+                  description: "Payment for items in cart",
+                  logo: "https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg",
+                },
+                text: "Pay with Flutterwave!",
+                callback: (response) => {
+                  console.log(response);
+                  closePaymentModal(); // this will close the modal programmatically
+                },
+                onClose: () => {},
+              }}
+            />
+            <Button>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
       </Wrapper>
